@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs/Observable';
 import { ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 
-import { SECONDARY_PLACEHOLDER, PLACEHOLDER } from './core/constants';
+import { SECONDARY_PLACEHOLDER, PLACEHOLDER } from './core/constants/index';
 import { TagInputDropdown } from './components/dropdown/tag-input-dropdown.component';
-import { TagModel } from './core';
+import { TagModel } from './core/accessor';
 
 export interface TagInputOptions {
     separatorKeys: string[];
@@ -23,7 +23,7 @@ export interface TagInputOptions {
     hideForm: boolean;
     addOnBlur: boolean;
     addOnPaste: boolean;
-    pasteSplitPattern: string;
+    pasteSplitPattern: string | RegExp;
     blinkIfDupe: boolean;
     removable: boolean;
     editable: boolean;
@@ -92,8 +92,8 @@ export const defaults = {
         displayBy: 'display',
         identifyBy: 'value',
         animationDuration: {
-            enter: "250ms",
-            leave: "150ms"
+            enter: '250ms',
+            leave: '150ms'
         }
     },
     dropdown: <TagInputDropdownOptions>{
