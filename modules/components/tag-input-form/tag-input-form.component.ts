@@ -4,7 +4,10 @@ import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidatorFn 
 @Component({
     selector: 'tag-input-form',
     styleUrls: [ './tag-input-form.style.scss' ],
-    templateUrl: './tag-input-form.template.html'
+    templateUrl: './tag-input-form.template.html',
+    host: {
+        '[style.pointer-events]': 'disabled ? "none" : "auto"'
+    }
 })
 export class TagInputForm implements OnChanges {
     /**

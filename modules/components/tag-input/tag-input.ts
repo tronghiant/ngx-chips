@@ -954,6 +954,7 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
             .valueChanges
             .pipe(
                 debounceTime(this.onTextChangeDebounce),
+                filter(() => !this.disable),
                 map(() => this.formValue)
             )
             .subscribe((value: string) => this.onTextChange.emit(value));

@@ -49,7 +49,7 @@
         <tag-input-form
             (onSubmit)="onAddingRequested(false, formValue)"
             (onBlur)="blur()"
-            (click)="dropdown ? dropdown.show() : undefined"
+            (click)="dropdown ? disable || dropdown.show() : undefined"
             (onKeydown)="fireEvents('keydown', $event)"
             (onKeyup)="fireEvents('keyup', $event)"
 
@@ -65,7 +65,7 @@
         </tag-input-form>
     </div>
 
-    <div class="progress-bar" *ngIf="isLoading"></div>
+    <div class="progress-bar" *ngIf="isLoading && !disable"></div>
 </div>
 
 <!-- ERRORS -->
