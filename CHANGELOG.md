@@ -3,7 +3,7 @@
 - Fix https://github.com/Gbuomprisco/ngx-chips/issues/620#issuecomment-351367934
 
 ## 1.6.7 - 2018-03-16
-- Make ngx-chip works Angular 4.x
+- Make ngx-chip works with Angular 4.x
 
 ## 1.2.9
 
