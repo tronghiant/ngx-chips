@@ -12,9 +12,9 @@ export declare interface DraggedTag {
 import { DRAG_AND_DROP_KEY } from '../../core/constants';
 
 export declare interface State {
-    dragging: boolean,
-    dropping: boolean,
-    index: number | undefined
+    dragging: boolean;
+    dropping: boolean;
+    index: number | undefined;
 }
 
 export declare type StateProperty = keyof State;

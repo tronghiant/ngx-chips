@@ -1,32 +1,32 @@
 {
-  "name": "ngx-chips",
+  "name": "ngx-chips-4x",
   "version": "1.6.7",
   "description": "Tag Input component for Angular",
   "scripts": {
     "release": "npm run build && npm publish dist",
     "postrelease": "rm -rf dist",
-    "build": "ng-packagr -p package.json && mkdir ./dist/dist && cp -R ./modules/core/styles ./dist/core/styles && cp ./dist/bundles/ngx-chips.umd.js ./dist/dist/ngx-chips.bundle.js",
+    "build": "ng-packagr -p package.json && mkdir ./dist/dist && cp -R ./modules/core/styles ./dist/core/styles && cp ./dist/bundles/ngx-chips-4x.umd.js ./dist/dist/ngx-chips-4x.bundle.js",
     "server": "webpack-dev-server --config webpack.demo.js --inline --colors --progress --port 3010 --content-base demo",
     "start": "npm run server",
     "test": "karma start karma.conf.js",
     "codecov": "codecov"
   },
   "author": {
-    "name": "Giancarlo Buomprisco",
-    "email": "giancarlopsk@gmail.com"
+    "name": "tronghiant",
+    "email": "ffahw1001@gmail.com"
   },
   "contributors": [],
   "license": "MIT",
   "devDependencies": {
-    "@angular/animations": "^5.0.0",
-    "@angular/common": "^5.0.0",
-    "@angular/compiler": "^5.0.0",
-    "@angular/compiler-cli": "^5.0.0",
-    "@angular/core": "^5.0.0",
-    "@angular/forms": "^5.0.0",
-    "@angular/http": "^5.0.0",
-    "@angular/platform-browser": "^5.0.0",
-    "@angular/platform-browser-dynamic": "^5.0.0",
+    "@angular/animations": "^4.3.0",
+    "@angular/common": "^4.3.0",
+    "@angular/compiler": "^4.3.0",
+    "@angular/compiler-cli": "^4.3.0",
+    "@angular/core": "^4.3.0",
+    "@angular/forms": "^4.3.0",
+    "@angular/http": "^4.3.0",
+    "@angular/platform-browser": "^4.3.0",
+    "@angular/platform-browser-dynamic": "^4.3.0",
     "@types/es6-shim": "^0.31.32",
     "@types/jasmine": "^2.5.41",
     "@types/node": "^7.0.3",
@@ -49,7 +49,7 @@
     "karma-jasmine": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "2.0.9",
-    "ng-packagr": "^2.0.0-rc.12",
+    "ng-packagr": "^1.7.0",
     "node-sass": "^4.3.0",
     "postcss-loader": "^1.2.2",
     "precss": "^1.4.0",
@@ -62,9 +62,9 @@
     "to-string-loader": "^1.1.5",
     "ts-helpers": "1.1.2",
     "ts-node": "^3.0.2",
-    "tsickle": "^0.25.5",
+    "tsickle": "^0.23.6",
     "tslint": "^5.2.0",
-    "typescript": "^2.4.0",
+    "typescript": "~2.3.4",
     "universal-style-loader": "^0.16.3",
     "url-loader": "^0.5.7",
     "webpack": "^3.0.0",
@@ -76,11 +76,11 @@
     "ng2-material-dropdown": "~0.8.2"
   },
   "peerDependencies": {
-    "@angular/animations": "^5.0.0",
-    "@angular/common": "^5.0.0",
-    "@angular/core": "^5.0.0",
-    "@angular/forms": "^5.0.0",
-    "rxjs": "^5.5.0"
+    "@angular/animations": ">=4.2.0",
+    "@angular/common": ">=4.2.0",
+    "@angular/core": ">=4.2.0",
+    "@angular/forms": ">=4.2.0",
+    "rxjs": "^5.0.1"
   },
   "keywords": [
     "angular tag input",
@@ -91,12 +91,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gbuomprisco/ngx-chips"
+    "url": "https://github.com/tronghiant/ngx-chips"
   },
   "bugs": {
-    "url": "https://github.com/Gbuomprisco/ngx-chips/issues"
+    "url": "https://github.com/tronghiant/ngx-chips/issues"
   },
-  "homepage": "https://github.com/Gbuomprisco/ngx-chips",
+  "homepage": "https://github.com/tronghiant/ngx-chips",
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "ngPackage": {
     "lib": {

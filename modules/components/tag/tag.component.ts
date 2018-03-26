@@ -199,8 +199,8 @@ export class TagComponent {
      * @name toggleEditMode
      */
     public toggleEditMode(): void {
-        if (this.editable) {
-            this.editing ? undefined : this.activateEditMode();
+        if (this.editable && this.editing) {
+            this.activateEditMode();
         }
     }
 
@@ -211,8 +211,8 @@ export class TagComponent {
     public onBlurred(event: any): void {
         // Checks if it is editable first before handeling the onBlurred event in order to prevent
         // a bug in IE where tags are still editable with onlyFromAutocomplete set to true
-		if (!this.editable) {
-			return;
+        if (!this.editable) {
+            return;
         }
 
         this.disableEditMode();

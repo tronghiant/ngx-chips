@@ -425,7 +425,7 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
 
 	    // Setting editable to false to fix problem with tags in IE still being editable when
 	    // onlyFromAutocomplete is true
-		this.editable = this.onlyFromAutocomplete ? false : this.editable;
+        this.editable = this.onlyFromAutocomplete ? false : this.editable;
 
         this.setAnimationMetadata();
     }
@@ -439,7 +439,8 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
         const subscribeFn = (model: TagModel) => this.removeItem(model, index);
 
         this.onRemoving ?
-            this.onRemoving(tag).pipe(first())
+            this.onRemoving(tag)
+                .pipe(first())
                 .subscribe(subscribeFn) : subscribeFn(tag);
     }
 
@@ -458,7 +459,8 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
         }
 
         this.onAdding ?
-            this.onAdding(tag).pipe(first())
+            this.onAdding(tag)
+                .pipe(first())
                 .subscribe(subscribeFn) : subscribeFn(tag);
     }
 

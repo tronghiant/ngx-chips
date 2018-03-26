@@ -2,7 +2,11 @@
 
 This is a component for Angular >= 4. Design and API are blandly inspired by Angular Material's md-chips. Formerly called ng2-tag-input.
 
-[![NPM](https://nodei.co/npm/ngx-chips.png?downloads=true&stars=true)](https://nodei.co/npm/ngx-chips/)
+I have forked [Gbuomprisco/ngx-chips](https://github.com/Gbuomprisco/ngx-chips) to use in my internal project.
+The original project does not support for Angular 4.x and have problem with AOT.
+
+I will try to keep update with `Gbuomprisco/ngx-chips` and keep compatibility with Angular 4.x 
+
 
 ## [Demo](https://angular-mfppay.stackblitz.io/)
 
