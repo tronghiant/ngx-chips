@@ -45,7 +45,7 @@ export class Home {
         const url = `https://api.github.com/search/repositories?q=${text}`;
         return this.http
             .get(url)
-            .pipe(map(data => data.json().items.map(item => item.full_name)));
+            .pipe(map((data: Response) => data.json().items.map(item => item.full_name)));
     };
 
     public requestAutocompleteItemsFake = (text: string): Observable<string[]> => {
