@@ -399,7 +399,10 @@ export class TagInputDropdown {
         };
 
         this.autocompleteObservable(text)
-            .pipe(first())
+            .pipe(
+                filter(() => !this.tagInput.disable),
+                first()
+            )
             .subscribe(subscribeFn, () => this.setLoadingState(false));
     }
 

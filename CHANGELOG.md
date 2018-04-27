@@ -1,4 +1,7 @@
 
+## 1.6.9 - 2018-03-26
+- Fix: should not show dropdown & progress bar while being disabled
+
 ## 1.6.8 - 2018-03-26
 - Fix https://github.com/Gbuomprisco/ngx-chips/issues/620#issuecomment-351367934
 

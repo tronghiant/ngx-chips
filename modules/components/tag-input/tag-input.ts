@@ -456,7 +456,7 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
 
         const subscribeFn = (model: TagModel) => {
             return this.addItem(fromAutocomplete, model, index);
-        }
+        };
 
         this.onAdding ?
             this.onAdding(tag)
@@ -735,8 +735,8 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
 
         // if so, give a visual cue and return false
         if (!this.allowDupes && dupe && this.blinkIfDupe) {
-            const model = this.tags.find(tag => {
-                return this.getItemValue(tag.model) === this.getItemValue(dupe);
+            const model = this.tags.find(_tag => {
+                return this.getItemValue(_tag.model) === this.getItemValue(dupe);
             });
 
             if (model) {
@@ -873,7 +873,9 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
             }
 
             this.dropdown.hide();
-            this.dropdown.showDropdownIfEmpty ? this.dropdown.show() : undefined;
+            if (this.dropdown.showDropdownIfEmpty) {
+                this.dropdown.show();
+            }
         };
 
         of(model).pipe(
@@ -952,6 +954,7 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
             .valueChanges
             .pipe(
                 debounceTime(this.onTextChangeDebounce),
+                filter(() => !this.disable),
                 map(() => this.formValue)
             )
             .subscribe((value: string) => this.onTextChange.emit(value));
