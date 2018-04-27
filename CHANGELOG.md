@@ -1,4 +1,7 @@
 
+## 1.7.3 - 2018-03-27
+- Sync a lot of fix from [Gbuomprisco/ngx-chips](https://github.com/Gbuomprisco/ngx-chips)
+
 ## 1.6.9 - 2018-03-26
 - Fix: should not show dropdown & progress bar while being disabled
 
