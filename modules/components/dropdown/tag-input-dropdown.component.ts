@@ -16,7 +16,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { map, filter, first, debounceTime } from 'rxjs/operators';
 
-import { Ng2Dropdown, Ng2MenuItem } from 'ng2-material-dropdown';
+import { Ng2Dropdown, Ng2MenuItem } from '../ng2-material-dropdown/ng2-dropdown.module';
 import { OptionsProvider } from '../../core/providers/options-provider';
 import { TagInputComponent } from '../tag-input/tag-input';
 import { TagInputDropdownOptions } from '../../defaults';
