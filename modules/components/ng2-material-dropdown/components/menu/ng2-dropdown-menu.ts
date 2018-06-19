@@ -17,6 +17,7 @@ import { ACTIONS, arrowKeysHandler } from './actions';
 
 import { Ng2MenuItem } from '../menu-item/ng2-menu-item';
 import { DropdownStateService } from '../../services/dropdown-state.service';
+import { ViewportRuler } from '../../services/viewport-ruler';
 
 @Component({
     selector: 'ng2-dropdown-menu',
@@ -80,6 +81,22 @@ export class Ng2DropdownMenu {
      */
     @Input() public offset: string;
 
+    public get offsetX(): number {
+        if (!this.offset) {
+            return 0;
+        }
+        const v = this.offset.split(' ', 2).shift();
+        return parseInt(v.replace('px', ''), 10);
+    }
+
+    public get offsetY(): number {
+        if (!this.offset || this.offset.indexOf(' ') === -1) {
+            return 0;
+        }
+        const v = this.offset.split(' ', 2).pop();
+        return parseInt(v.replace('px', ''), 10);
+    }
+
     /**
      * @name appendToBody
      * @type {boolean}
@@ -101,6 +118,7 @@ export class Ng2DropdownMenu {
 
     constructor(public state: DropdownStateService,
                 private element: ElementRef,
+                private viewportRuler: ViewportRuler,
                 private renderer: Renderer) {}
 
     /**
@@ -171,68 +189,40 @@ export class Ng2DropdownMenu {
 
     /**
      * @name calcPositionOffset
-     * @param position
+     * @param rect
      * @returns {{top: string, left: string}}
      */
-    private calcPositionOffset(position): { top: string, left: string } {
-        const wd = typeof window !== 'undefined' ? window : undefined;
-        const dc = typeof document !== 'undefined' ? document : undefined;
+    private calcPositionOffset(rect): { top: string, left: string } {
+        const vRect = this.viewportRuler.getViewportRect();
 
-        if (!wd || !dc || !position) {
-            return;
+        const top = (this.appendToBody ? vRect.top : 0) + rect.top;
+        const left = (this.appendToBody ? vRect.left : 0) + rect.left;
+        const menuHeight = this.getMenuElement().clientHeight;
+        const menuWidth = this.getMenuElement().clientWidth;
+
+        let topPx;
+        let leftPx;
+
+        if (rect.bottom + this.offsetY + menuHeight > vRect.height) {
+            // NOTE: 上に表示
+            topPx = `${top - menuHeight - this.offsetY}px`;
+        } else {
+            // NOTE: 下に表示
+            topPx = `${top + rect.height + this.offsetY}px`;
         }
 
-        const element = this.getMenuElement();
-        const supportPageOffset = wd.pageXOffset !== undefined;
-        const isCSS1Compat = ((dc.compatMode || '') === 'CSS1Compat');
-
-        const x = supportPageOffset ? wd.pageXOffset : isCSS1Compat ?
-            dc.documentElement.scrollLeft : dc.body.scrollLeft;
-
-        const y = supportPageOffset ? wd.pageYOffset : isCSS1Compat ?
-            dc.documentElement.scrollTop : dc.body.scrollTop;
-
-        let { top, left } = this.applyOffset(
-            `${position.top + (this.appendToBody ? y - 15 : 0)}px`,
-            `${position.left + x - 5}px`
-        );
-
-        const clientWidth = element.clientWidth;
-        const clientHeight = element.clientHeight;
-
-        const marginFromBottom = parseInt(top) + clientHeight + (this.appendToBody ? 0 : y - 15);
-        const marginFromRight = parseInt(left) + clientWidth;
-
-        const windowScrollHeight = wd.innerHeight + wd.scrollY;
-        const windowScrollWidth = wd.innerWidth + wd.scrollX;
-
-        if (marginFromBottom >= windowScrollHeight) {
-            top = `${parseInt(top.replace('px', '')) - clientHeight}px`;
+        if (rect.right + this.offsetX + menuWidth > vRect.width) {
+            // 右にはみ出す => 右寄せ表示
+            leftPx = `${left + rect.width - menuWidth - this.offsetX}px`;
+        } else {
+            // その他、左寄せ表示
+            leftPx = `${left + this.offsetX}px`;
         }
 
-        if (marginFromRight >= windowScrollWidth) {
-            const marginRight = marginFromRight - windowScrollWidth + 30;
-            left = `${parseInt(left.replace('px', '')) - marginRight}px`;
-        }
-
-        return { top, left };
-    }
-
-    private applyOffset(top: string, left: string): { top: string, left: string } {
-        if (!this.offset) {
-            return { top, left };
-        }
-
-        const offset = this.offset.split(' ');
-
-        if (!offset[1]) {
-            offset[1] = '0';
-        }
-
-        top = `${parseInt(top.replace('px', '')) + parseInt(offset[0])}px`;
-        left = `${parseInt(left.replace('px', '')) + parseInt(offset[1])}px`;
-
-        return { top, left };
+        return {
+            top: topPx,
+            left: leftPx
+        };
     }
 
     public ngOnInit() {

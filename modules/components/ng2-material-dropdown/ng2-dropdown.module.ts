@@ -6,6 +6,7 @@ import { Ng2MenuItem } from './components/menu-item/ng2-menu-item';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DropdownStateService } from './services/dropdown-state.service';
+import { ViewportRuler } from './services/viewport-ruler';
 
 @NgModule({
     exports: [
@@ -24,6 +25,7 @@ import { DropdownStateService } from './services/dropdown-state.service';
         CommonModule
     ],
     providers: [
+        ViewportRuler,
         DropdownStateService
     ]
 })
@@ -34,5 +36,6 @@ export {
     Ng2DropdownMenu,
     Ng2MenuItem,
     Ng2DropdownButton,
-    DropdownStateService
+    DropdownStateService,
+    ViewportRuler
 };
