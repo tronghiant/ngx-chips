@@ -1,6 +1,6 @@
 {
   "name": "ngx-chips-4x",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Tag Input component for Angular",
   "scripts": {
     "release": "npm run build && npm publish dist",
@@ -71,9 +71,6 @@
     "webpack-dev-server": "https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-2.11.1.tgz",
     "webpack-merge": "^4.1.0",
     "zone.js": "0.8.10"
-  },
-  "dependencies": {
-    "ng2-material-dropdown": "~0.8.2"
   },
   "peerDependencies": {
     "@angular/animations": ">=4.2.0",
