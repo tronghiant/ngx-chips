@@ -203,7 +203,11 @@ export class Ng2DropdownMenu {
         let topPx;
         let leftPx;
 
-        if (rect.bottom + this.offsetY + menuHeight > vRect.height) {
+        // Available space at the top and bottom
+        const topAvailable = rect.top - this.offsetY;
+        const bottomAvailable = vRect.height - (rect.bottom + this.offsetY);
+
+        if (rect.bottom + this.offsetY + menuHeight > vRect.height && bottomAvailable < topAvailable) {
             // NOTE: 上に表示
             topPx = `${top - menuHeight - this.offsetY}px`;
         } else {
