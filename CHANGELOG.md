@@ -1,4 +1,7 @@
 
+## 1.7.4 - 2018-06-20
+- better handle position of dropdown-menu (don't cover the input)
+
 ## 1.7.3 - 2018-03-27
 - Sync a lot of fix from [Gbuomprisco/ngx-chips](https://github.com/Gbuomprisco/ngx-chips)
 
