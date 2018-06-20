@@ -25,8 +25,7 @@ import { ViewportRuler } from './services/viewport-ruler';
         CommonModule
     ],
     providers: [
-        ViewportRuler,
-        DropdownStateService
+        ViewportRuler
     ]
 })
 export class Ng2DropdownModule {}
@@ -36,6 +35,5 @@ export {
     Ng2DropdownMenu,
     Ng2MenuItem,
     Ng2DropdownButton,
-    DropdownStateService,
-    ViewportRuler
+    DropdownStateService
 };
