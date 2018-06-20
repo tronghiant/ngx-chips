@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Ng2DropdownModule } from 'ng2-material-dropdown';
+import { Ng2DropdownModule } from './components/ng2-material-dropdown/ng2-dropdown.module';
 import { HighlightPipe } from './core/pipes/highlight.pipe';
 import { DragProvider } from './core/providers/drag-provider';
 import { OptionsProvider, Options } from './core/providers/options-provider';

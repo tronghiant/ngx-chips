@@ -72,9 +72,6 @@
     "webpack-merge": "^4.1.0",
     "zone.js": "0.8.10"
   },
-  "dependencies": {
-    "ng2-material-dropdown": "~0.8.2"
-  },
   "peerDependencies": {
     "@angular/animations": ">=4.2.0",
     "@angular/common": ">=4.2.0",
