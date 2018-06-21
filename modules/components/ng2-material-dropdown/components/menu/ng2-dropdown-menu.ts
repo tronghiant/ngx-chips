@@ -19,6 +19,8 @@ import { Ng2MenuItem } from '../menu-item/ng2-menu-item';
 import { DropdownStateService } from '../../services/dropdown-state.service';
 import { ViewportRuler } from '../../services/viewport-ruler';
 
+const noop: Function = () => {};
+
 @Component({
     selector: 'ng2-dropdown-menu',
     styleUrls: [ './style.scss' ],
@@ -66,14 +68,14 @@ export class Ng2DropdownMenu {
      * @name width
      * @type {number} [2, 4, 6]
      */
-    @Input() public width: number = 4;
+    @Input() public width = 4;
 
     /**
      * @description if set to true, the first element of the dropdown will be automatically focused
      * @name focusFirstElement
      * @type {boolean}
      */
-    @Input() public focusFirstElement: boolean = true;
+    @Input() public focusFirstElement = true;
 
     /**
      * @description sets dropdown offset from the button
@@ -86,7 +88,7 @@ export class Ng2DropdownMenu {
             return 0;
         }
         const v = this.offset.split(' ', 2).shift();
-        return parseInt(v.replace('px', ''), 10);
+        return parseInt(v!.replace('px', ''), 10);
     }
 
     public get offsetY(): number {
@@ -94,14 +96,14 @@ export class Ng2DropdownMenu {
             return 0;
         }
         const v = this.offset.split(' ', 2).pop();
-        return parseInt(v.replace('px', ''), 10);
+        return parseInt(v!.replace('px', ''), 10);
     }
 
     /**
      * @name appendToBody
      * @type {boolean}
      */
-    @Input() public appendToBody: boolean = true;
+    @Input() public appendToBody = true;
 
     /**
      * @name items
@@ -109,11 +111,10 @@ export class Ng2DropdownMenu {
      */
     @ContentChildren(Ng2MenuItem) public items: QueryList<Ng2MenuItem>;
 
-    private position: ClientRect;
 
     private listeners = {
-        arrowHandler: undefined,
-        handleKeypress: undefined
+        arrowHandler: noop,
+        handleKeypress: noop
     };
 
     constructor(public state: DropdownStateService,
@@ -125,16 +126,18 @@ export class Ng2DropdownMenu {
      * @name show
      * @shows menu and selects first item
      */
-    public show(): void {
-        const dc = typeof document !== 'undefined' ? document : undefined;
-        const wd = typeof window !== 'undefined' ? window : undefined;
-
+    public show(width = 0): void {
         // update state
         this.state.menuState.isVisible = true;
 
+        const element = this.getMenuElement();
+
+        if (width > 0) {
+            this.renderer.setElementStyle(element, 'width', `${width}px`);
+        }
         // setting handlers
-        this.listeners.handleKeypress = this.renderer.listen(dc.body, 'keydown', this.handleKeypress.bind(this));
-        this.listeners.arrowHandler = this.renderer.listen(wd, 'keydown', arrowKeysHandler);
+        this.listeners.handleKeypress = this.renderer.listen(document!.body, 'keydown', this.handleKeypress.bind(this));
+        this.listeners.arrowHandler = this.renderer.listen(window, 'keydown', arrowKeysHandler);
     }
 
     /**
@@ -148,8 +151,8 @@ export class Ng2DropdownMenu {
         this.state.dropdownState.unselect();
 
         // call function to unlisten
-        this.listeners.arrowHandler ? this.listeners.arrowHandler() : undefined;
-        this.listeners.handleKeypress ? this.listeners.handleKeypress() : undefined;
+        this.listeners.arrowHandler();
+        this.listeners.handleKeypress();
     }
 
     /**
@@ -157,9 +160,18 @@ export class Ng2DropdownMenu {
      * @desc updates the menu position every time it is toggled
      * @param position {ClientRect}
      */
-    public updatePosition(position: ClientRect): void {
-        this.position = position;
-        this.ngDoCheck();
+    public updatePosition(position: ClientRect, width = 0): void {
+
+        const element = this.getMenuElement();
+
+        if (position) {
+            this.renderer.setElementStyle(element, 'top', position.top + '');
+            this.renderer.setElementStyle(element, 'left', position.left + '');
+        }
+
+        if (width > 0) {
+            this.renderer.setElementStyle(element, 'width', `${width}px`);
+        }
     }
 
     /**
@@ -188,26 +200,39 @@ export class Ng2DropdownMenu {
     }
 
     /**
+     * @name getBackdropElement
+     * @returns {Element}
+     */
+    public getBackdropElement(): Element {
+        return this.element.nativeElement.children[1];
+    }
+
+    /**
      * @name calcPositionOffset
      * @param rect
      * @returns {{top: string, left: string}}
      */
-    private calcPositionOffset(rect): { top: string, left: string } {
+    public calcPositionOffset(rect, anchor: HTMLElement): { top: string, left: string } {
+
         const vRect = this.viewportRuler.getViewportRect();
 
         const top = (this.appendToBody ? vRect.top : 0) + rect.top;
         const left = (this.appendToBody ? vRect.left : 0) + rect.left;
         const menuHeight = this.getMenuElement().clientHeight;
-        const menuWidth = this.getMenuElement().clientWidth;
+        const menuWidth = anchor ? anchor.getBoundingClientRect().width : this.getMenuElement().clientWidth;
 
         let topPx;
         let leftPx;
+
 
         // Available space at the top and bottom
         const topAvailable = rect.top - this.offsetY;
         const bottomAvailable = vRect.height - (rect.bottom + this.offsetY);
 
-        if (rect.bottom + this.offsetY + menuHeight > vRect.height && bottomAvailable < topAvailable) {
+        if (
+            rect.bottom + this.offsetY + menuHeight > vRect.height &&
+            bottomAvailable < topAvailable
+        ) {
             // NOTE: 上に表示
             topPx = `${top - menuHeight - this.offsetY}px`;
         } else {
@@ -230,23 +255,14 @@ export class Ng2DropdownMenu {
     }
 
     public ngOnInit() {
-        const dc = typeof document !== 'undefined' ? document : undefined;
         if (this.appendToBody) {
             // append menu element to the body
-            dc.body.appendChild(this.element.nativeElement);
+            document!.body!.appendChild(this.element.nativeElement);
         }
     }
 
     public ngDoCheck() {
-        if (this.state.menuState.isVisible && this.position) {
-            const element = this.getMenuElement();
-            const position = this.calcPositionOffset(this.position);
-
-            if (position) {
-                this.renderer.setElementStyle(element, 'top', position.top);
-                this.renderer.setElementStyle(element, 'left', position.left);
-            }
-
+        if (this.state.menuState.isVisible) {
             // select first item unless user disabled this option
             if (this.focusFirstElement &&
                 this.items.first &&

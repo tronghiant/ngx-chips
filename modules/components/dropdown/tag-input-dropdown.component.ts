@@ -3,18 +3,18 @@ import {
     ContentChildren,
     EventEmitter,
     forwardRef,
-    HostListener,
     Injector,
     Input,
     QueryList,
     TemplateRef,
     Type,
     ViewChild,
+    ElementRef
 } from '@angular/core';
 
 // rx
 import { Observable } from 'rxjs/Observable';
-import { map, filter, first, debounceTime } from 'rxjs/operators';
+import { filter, first, debounceTime } from 'rxjs/operators';
 
 import { Ng2Dropdown, Ng2MenuItem } from '../ng2-material-dropdown/ng2-dropdown.module';
 import { OptionsProvider } from '../../core/providers/options-provider';
@@ -144,6 +144,11 @@ export class TagInputDropdown {
         });
     }
 
+    /**
+   * @name anchor: ElementRef
+   */
+    @Input() public anchor: ElementRef;
+
     constructor(private readonly injector: Injector) {}
 
     /**
@@ -159,7 +164,7 @@ export class TagInputDropdown {
         const KEEP_OPEN = this.keepOpen;
 
         this.tagInput
-            .onTextChange
+        .onTextChange
             .asObservable()
             .pipe(
                 debounceTime(DEBOUNCE_TIME),
@@ -174,14 +179,6 @@ export class TagInputDropdown {
             .subscribe(this.show);
     }
 
-    /**
-     * @name updatePosition
-     */
-    public updatePosition(): void {
-        const position = this.tagInput.inputForm.getElementPosition();
-
-        this.dropdown.menu.updatePosition(position);
-    }
 
     /**
      * @name isVisible
@@ -226,7 +223,6 @@ export class TagInputDropdown {
         const maxItemsReached = this.tagInput.items.length === this.tagInput.maxItems;
         const value = this.getFormValue();
         const hasMinimumText = value.trim().length >= this.minimumTextLength;
-        const position = this.calculatePosition();
         const items = this.getMatchingItems(value);
         const hasItems = items.length > 0;
         const isHidden = this.isVisible === false;
@@ -248,7 +244,7 @@ export class TagInputDropdown {
         this.setItems(items);
 
         if (shouldShow) {
-            this.dropdown.show(position);
+            this.dropdown.show(this.anchor);
         } else if (shouldHide) {
             this.hide();
         }
@@ -263,37 +259,10 @@ export class TagInputDropdown {
     }
 
     /**
-     * @name scrollListener
-     */
-    @HostListener('window:scroll')
-    public scrollListener(): void {
-        if (!this.isVisible) {
-            return;
-        }
-
-        this.updatePosition();
-    }
-
-    /**
-     * @name onWindowBlur
-     */
-    @HostListener('window:blur')
-    public onWindowBlur(): void {
-        this.dropdown.hide();
-    }
-
-    /**
      * @name getFormValue
      */
     private getFormValue(): string {
         return this.tagInput.formValue.trim();
-    }
-
-    /**
-     * @name calculatePosition
-     */
-    private calculatePosition(): ClientRect {
-        return this.tagInput.inputForm.getElementPosition();
     }
 
     /**
@@ -387,7 +356,7 @@ export class TagInputDropdown {
             this.setItems(this.getMatchingItems(text));
 
             if (this.items.length) {
-                this.dropdown.show(this.calculatePosition());
+                this.dropdown.show(this.anchor);
             } else if (!this.showDropdownIfEmpty && this.isVisible) {
                 this.dropdown.hide();
             } else if (!this.showDropdownIfEmpty) {

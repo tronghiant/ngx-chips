@@ -31,7 +31,7 @@
              (dragenter)="dragZone ? onDragOver($event) : undefined"
              (dragover)="dragZone ? onDragOver($event, i) : undefined"
              (dragleave)="dragZone ? dragProvider.onDragEnd() : undefined"
-             
+
              [canAddTag]="isTagValid"
              [attr.tabindex]="0"
              [disabled]="disable"
@@ -50,7 +50,7 @@
         <tag-input-form
             (onSubmit)="onAddingRequested(false, formValue)"
             (onBlur)="blur()"
-            (click)="dropdown ? disable || dropdown.show() : undefined"
+            (click)="dropdown ? disable || dropdown.show(element) : undefined"
             (onKeydown)="fireEvents('keydown', $event)"
             (onKeyup)="fireEvents('keyup', $event)"
 
