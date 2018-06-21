@@ -218,8 +218,9 @@ export class Ng2DropdownMenu {
 
         const top = (this.appendToBody ? vRect.top : 0) + rect.top;
         const left = (this.appendToBody ? vRect.left : 0) + rect.left;
-        const menuHeight = this.getMenuElement().clientHeight;
-        const menuWidth = anchor ? anchor.getBoundingClientRect().width : this.getMenuElement().clientWidth;
+        const menuHeight = (this.getMenuElement() as HTMLElement).offsetHeight;
+        const menuWidth =
+         anchor ? anchor.getBoundingClientRect().width : (this.getMenuElement() as HTMLElement).offsetWidth;
 
         let topPx;
         let leftPx;

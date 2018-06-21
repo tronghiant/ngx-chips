@@ -16,7 +16,8 @@
      [class.ng2-tag-input--focused]="isInputFocused()">
 
     <!-- TAGS -->
-    <div class="ng2-tags-container">
+    <div class="ng2-tags-container"
+        (click)="dropdown ? disable || dropdown.show(element) : undefined">
         <tag *ngFor="let item of items; let i = index; trackBy: trackBy"
 
              (onSelect)="selectItem(item)"
@@ -50,7 +51,6 @@
         <tag-input-form
             (onSubmit)="onAddingRequested(false, formValue)"
             (onBlur)="blur()"
-            (click)="dropdown ? disable || dropdown.show(element) : undefined"
             (onKeydown)="fireEvents('keydown', $event)"
             (onKeyup)="fireEvents('keyup', $event)"
 
