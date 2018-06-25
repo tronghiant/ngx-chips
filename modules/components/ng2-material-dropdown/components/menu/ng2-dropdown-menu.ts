@@ -10,7 +10,9 @@ import {
     transition,
     animate,
     keyframes,
-    state
+    state,
+    EventEmitter,
+    Output
 } from '@angular/core';
 
 import { ACTIONS, arrowKeysHandler } from './actions';
@@ -52,6 +54,7 @@ const noop: Function = () => {};
     ]
 })
 export class Ng2DropdownMenu {
+    @Output() public visibilityChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     /**
      * @name width
      * @type {number} [2, 4, 6]
@@ -117,6 +120,7 @@ export class Ng2DropdownMenu {
     public show(width = 0): void {
         // update state
         this.state.menuState.isVisible = true;
+        this.visibilityChange.emit(this.state.menuState.isVisible);
 
         const element = this.getMenuElement();
 
@@ -134,6 +138,7 @@ export class Ng2DropdownMenu {
      */
     public hide(): void {
         this.state.menuState.isVisible = false;
+        this.visibilityChange.emit(this.state.menuState.isVisible);
 
         // reset selected item state
         this.state.dropdownState.unselect();
@@ -200,7 +205,7 @@ export class Ng2DropdownMenu {
      * @param rect
      * @returns {{top: string, left: string}}
      */
-    public calcPositionOffset(rect, anchor: HTMLElement): { top: string, left: string } {
+    public calcPositionOffset(rect, anchor: HTMLElement): { top: string, left: string, width: string } {
 
         const vRect = this.viewportRuler.getViewportRect();
 
@@ -239,7 +244,8 @@ export class Ng2DropdownMenu {
 
         return {
             top: topPx,
-            left: leftPx
+            left: leftPx,
+            width: `${menuWidth}px`
         };
     }
 
