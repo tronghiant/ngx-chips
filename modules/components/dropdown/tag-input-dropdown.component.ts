@@ -215,6 +215,8 @@ export class TagInputDropdown {
         return this.dropdown.menu.state;
     }
 
+    @Input() public hideOnBlur = true;
+
     /**
      *
      * @name show
