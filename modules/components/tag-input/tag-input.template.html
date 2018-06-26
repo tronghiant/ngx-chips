@@ -17,7 +17,7 @@
 
     <!-- TAGS -->
     <div class="ng2-tags-container"
-        (click)="dropdown ? disable || dropdown.show(element) : undefined">
+        (click)="dropdown ? disable || dropdown.show() : undefined">
         <tag *ngFor="let item of items; let i = index; trackBy: trackBy"
 
              (onSelect)="selectItem(item)"
