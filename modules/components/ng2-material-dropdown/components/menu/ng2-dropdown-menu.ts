@@ -102,6 +102,7 @@ export class Ng2DropdownMenu {
      */
     @ContentChildren(Ng2MenuItem) public items: QueryList<Ng2MenuItem>;
 
+    public postionUpdated = false;
 
     private listeners = {
         arrowHandler: noop,
@@ -137,6 +138,8 @@ export class Ng2DropdownMenu {
      * @desc hides menu
      */
     public hide(): void {
+        this.postionUpdated = false;
+
         this.state.menuState.isVisible = false;
         this.visibilityChange.emit(this.state.menuState.isVisible);
 
@@ -154,6 +157,8 @@ export class Ng2DropdownMenu {
      * @param position {ClientRect}
      */
     public updatePosition(position: ClientRect, width = 0): void {
+        // the menu should visible only after it's position  has been updated
+        this.postionUpdated  = true;
 
         const element = this.getMenuElement();
 
@@ -188,7 +193,7 @@ export class Ng2DropdownMenu {
      * @name getMenuElement
      * @returns {Element}
      */
-    private getMenuElement(): Element {
+    public getMenuElement(): HTMLElement {
         return this.element.nativeElement.children[0];
     }
 
@@ -209,11 +214,12 @@ export class Ng2DropdownMenu {
 
         const vRect = this.viewportRuler.getViewportRect();
 
+        const menu = (this.getMenuElement() as HTMLElement);
+
         const top = (this.appendToBody ? vRect.top : 0) + rect.top;
         const left = (this.appendToBody ? vRect.left : 0) + rect.left;
-        const menuHeight = (this.getMenuElement() as HTMLElement).offsetHeight;
-        const menuWidth =
-         anchor ? anchor.getBoundingClientRect().width : (this.getMenuElement() as HTMLElement).offsetWidth;
+        const menuHeight = menu.offsetHeight;
+        const menuWidth = anchor ? anchor.getBoundingClientRect().width : menu.offsetWidth;
 
         let topPx;
         let leftPx;

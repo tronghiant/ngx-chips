@@ -8,6 +8,7 @@ import {
     AfterViewInit
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { interval } from 'rxjs/observable/interval';
 import {
     delay,
     first,
@@ -15,6 +16,7 @@ import {
     merge,
     takeUntil,
     auditTime,
+    delayWhen,
     map,
     distinctUntilChanged,
     startWith,
@@ -84,21 +86,24 @@ export class Ng2Dropdown implements AfterViewInit {
                 filter(_ => this.state.menuState.isVisible),
                 flatMap(_ => {
                     if (this.anchorEl) {
-                        let aObservable: Observable<any>;
-                        if (detectPassiveEvents.hasSupport) {
-                            // https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
-                            aObservable = fromEvent(window, 'scroll', { passive: true });
-                        } else {
-                            aObservable = fromEvent(window, 'scroll');
-                        }
-                        return aObservable.pipe(
-                            startWith(0), // this will help update the menu post for the time the menu got shown
+                        // https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+                        return (detectPassiveEvents.hasSupport ? fromEvent(window, 'scroll', { passive: true }) :
+                            fromEvent(window, 'scroll'))
+                        .pipe(
                             merge(fromEvent(window, 'resize')),
                             merge(fromEvent(window, 'orientationchange')),
-                            merge(this.menu.items.changes),
-                            auditTime(50),
+                            merge(this.menu.items.changes)
+                        )
+                        .pipe(
+                            auditTime(30),
+                            startWith(0), // this will help update the menu position for the time the menu got shown
+                            delayWhen(x => interval(50).pipe(
+                                // but this job should be done after it's dimension has been stabled
+                                map(y =>  this.menu.getMenuElement() ? this.menu.getMenuElement().offsetHeight : 0),
+                                filter(v => v != 0 )
+                            )),
                             takeUntil(this.onHide),
-                            map(_ => this.anchorEl.nativeElement.getBoundingClientRect()),
+                            map(z => this.anchorEl.nativeElement.getBoundingClientRect()),
                             map(rect => this.menu.calcPositionOffset(rect, this.anchorEl.nativeElement)),
                             distinctUntilChanged((x: any, y: any) =>
                                 x.top === y.top && x.left === y.left && x.width === y.width),
