@@ -1,4 +1,10 @@
 
+## 1.7.9 - 2018-07-03
+- Fix: tag input does not hide when max items reached on ie10
+
+## 1.7.8 - 2018-06-26
+- fix AOT compile error
+
 ## 1.7.6 - 2018-06-25
 - re-calc menu pos when items count change
 - tag-input-dropdown now doesn't animate width/height when show/hide
