@@ -1,11 +1,31 @@
 import {
-    HostListener,
     Component,
     ContentChild,
     Output,
     EventEmitter,
-    Input
+    Input,
+    ElementRef,
+    AfterViewInit
 } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { interval } from 'rxjs/observable/interval';
+import {
+    delay,
+    first,
+    flatMap,
+    merge,
+    takeUntil,
+    auditTime,
+    delayWhen,
+    map,
+    distinctUntilChanged,
+    startWith,
+    filter
+} from 'rxjs/operators';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { empty } from 'rxjs/observable/empty';
+import { never } from 'rxjs/observable/never';
+import detectPassiveEvents from 'detect-passive-events';
 
 import { Ng2DropdownButton } from '../button/ng2-dropdown-button';
 import { Ng2DropdownMenu } from '../menu/ng2-dropdown-menu';
@@ -16,12 +36,10 @@ import { DropdownStateService } from '../../services/dropdown-state.service';
     templateUrl: './template.html',
     providers: [ DropdownStateService ]
 })
-export class Ng2Dropdown {
+export class Ng2Dropdown implements AfterViewInit {
     // get children components
     @ContentChild(Ng2DropdownButton) public button: Ng2DropdownButton;
     @ContentChild(Ng2DropdownMenu) public menu: Ng2DropdownMenu;
-
-    @Input() public dynamicUpdate: boolean = true;
 
     // outputs
     @Output() public onItemClicked: EventEmitter<string> = new EventEmitter<string>();
@@ -29,14 +47,82 @@ export class Ng2Dropdown {
     @Output() public onShow: EventEmitter<Ng2Dropdown> = new EventEmitter<Ng2Dropdown>();
     @Output() public onHide: EventEmitter<Ng2Dropdown> = new EventEmitter<Ng2Dropdown>();
 
+    @Input() public anchorEl: ElementRef;
+    @Input() public hideOnBlur = true;
+    private onDestroy: EventEmitter<any> = new EventEmitter<any>();
+    public onPositionChanged: EventEmitter<any> = new EventEmitter<any>();
+
+
     constructor(private state: DropdownStateService) {}
+
+    public ngAfterViewInit() {
+        if (this.menu) {
+            this.menu.visibilityChange.subscribe(v => {
+                (v ? this.onShow : this.onHide).emit(this);
+            });
+
+            this.menu.visibilityChange.pipe(
+                delay(100), // wait for `a-dropdown__backdrop` element shown-up
+                filter(_ => this.state.menuState.isVisible),
+                flatMap(_ => {
+                    // then when it got clicked
+                    return fromEvent(this.menu.getBackdropElement(), 'click')
+                        .pipe(
+                            first(), // but for the first time only
+                            merge(
+                                // or when window got blur
+                                this.hideOnBlur ? fromEvent(window, 'blur').pipe(first()) : never()
+                            )
+                        );
+                }),
+                takeUntil(this.onDestroy)
+            )
+            .subscribe(_ => {
+                // we hide the menu
+                this.hide();
+            });
+
+            this.menu.visibilityChange.pipe(
+                filter(_ => this.state.menuState.isVisible),
+                flatMap(_ => {
+                    if (this.anchorEl) {
+                        // https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+                        return (detectPassiveEvents.hasSupport ? fromEvent(window, 'scroll', { passive: true }) :
+                            fromEvent(window, 'scroll'))
+                        .pipe(
+                            merge(fromEvent(window, 'resize')),
+                            merge(fromEvent(window, 'orientationchange')),
+                            merge(this.menu.items.changes)
+                        )
+                        .pipe(
+                            auditTime(30),
+                            startWith(0), // this will help update the menu position for the time the menu got shown
+                            delayWhen(x => interval(50).pipe(
+                                // but this job should be done after it's dimension has been stabled
+                                map(y =>  this.menu.getMenuElement() ? this.menu.getMenuElement().offsetHeight : 0),
+                                filter(v => v != 0 )
+                            )),
+                            takeUntil(this.onHide),
+                            map(z => this.anchorEl.nativeElement.getBoundingClientRect()),
+                            map(rect => this.menu.calcPositionOffset(rect, this.anchorEl.nativeElement)),
+                            distinctUntilChanged((x: any, y: any) =>
+                                x.top === y.top && x.left === y.left && x.width === y.width),
+                        );
+                    }
+                    return empty();
+                }),
+                takeUntil(this.onDestroy)
+            )
+            .subscribe(p => this.updatePost(p));
+        }
+    }
 
     /**
      * @name toggleMenu
      * @desc toggles menu visibility
      */
-    public toggleMenu(position = this.button.getPosition()): void {
-        this.state.menuState.isVisible ? this.hide() : this.show(position);
+    public toggleMenu(): void {
+        this.state.menuState.isVisible ? this.hide() : this.show();
     }
 
     /**
@@ -45,7 +131,6 @@ export class Ng2Dropdown {
      */
     public hide(): void {
         this.menu.hide();
-        this.onHide.emit(this);
     }
 
     /**
@@ -53,23 +138,16 @@ export class Ng2Dropdown {
      * @name show
      * @param position
      */
-    public show(position = this.button.getPosition()): void {
-        this.menu.show();
+    public show(position: ClientRect | ElementRef = this.button.getPosition()): void {
 
-        // update menu position based on its button's
-        this.menu.updatePosition(position);
-        this.onShow.emit(this);
-    }
-
-    /**
-     * @name scrollListener
-     */
-    @HostListener('window:scroll')
-    public scrollListener() {
-        if (this.state.menuState.isVisible && this.button && this.dynamicUpdate) {
-            this.menu.updatePosition(this.button.getPosition());
+        var menuWidth = 0;
+        if (position instanceof ElementRef) {
+            this.anchorEl = position;
+            menuWidth = (this.anchorEl.nativeElement as HTMLElement).getBoundingClientRect().width;
         }
+        this.menu.show(menuWidth);
     }
+
 
     public ngOnInit() {
         this.state.dropdownState.onItemClicked.subscribe(item => {
@@ -89,5 +167,11 @@ export class Ng2Dropdown {
         }
 
         this.state.dropdownState.onItemSelected.subscribe(item => this.onItemSelected.emit(item));
+    }
+
+    private updatePost(position) {
+        const rect = (this.anchorEl.nativeElement as HTMLElement).getBoundingClientRect();
+        this.menu.updatePosition(position, rect.width);
+        this.onPositionChanged.emit();
     }
 }
