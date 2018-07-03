@@ -59,6 +59,7 @@
             [validators]="validators"
             [asyncValidators]="asyncValidators"
             [hidden]="maxItemsReached"
+            [style.display]="maxItemsReached ? 'none' : ''"
             [placeholder]="items.length ? placeholder : secondaryPlaceholder"
             [inputClass]="inputClass"
             [inputId]="inputId"
