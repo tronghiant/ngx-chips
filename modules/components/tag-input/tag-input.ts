@@ -15,7 +15,9 @@ import {
     TemplateRef,
     QueryList,
     AfterViewInit,
-    Type
+    Type,
+    AfterContentInit,
+    ElementRef
 } from '@angular/core';
 
 import {
@@ -64,7 +66,7 @@ const defaults: Type<TagInputOptions> = forwardRef(() => OptionsProvider.default
     templateUrl: './tag-input.template.html',
     animations
 })
-export class TagInputComponent extends TagInputAccessor implements OnInit, AfterViewInit {
+export class TagInputComponent extends TagInputAccessor implements OnInit, AfterViewInit, AfterContentInit {
     /**
      * @name separatorKeys
      * @desc keyboard keys with which a user can separate items
@@ -373,6 +375,7 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
     public animationMetadata: { value: string, params: object };
 
     constructor(private readonly renderer: Renderer2,
+                protected element: ElementRef,
                 public readonly dragProvider: DragProvider) {
         super();
     }
@@ -1084,5 +1087,11 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
             value: 'in',
             params: {...this.animationDuration}
         };
+    }
+
+    ngAfterContentInit(): void {
+        if (this.dropdown) {
+            this.dropdown.anchor = this.element;
+        }
     }
 }

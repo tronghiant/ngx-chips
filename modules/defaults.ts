@@ -100,7 +100,7 @@ export const defaults = {
         displayBy: 'display',
         identifyBy: 'value',
         appendToBody: true,
-        offset: '50 0',
+        offset: '0 0',
         focusFirstElement: false,
         showDropdownIfEmpty: false,
         minimumTextLength: 1,

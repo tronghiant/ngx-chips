@@ -1,4 +1,19 @@
 
+## 1.7.9 - 2018-07-03
+- Fix: tag input does not hide when max items reached on ie10
+
+## 1.7.8 - 2018-06-26
+- fix AOT compile error
+
+## 1.7.6 - 2018-06-25
+- re-calc menu pos when items count change
+- tag-input-dropdown now doesn't animate width/height when show/hide
+
+## 1.7.5 - 2018-06-21
+- Update dropdown's position calculation logic. Ng2Dropdown now handle this job in the more effectively way. tag-input now don't have always to listen to scroll event as it should be (there is use-case that It does not own a dropdown)
+
+- When showDropdownIfEmpty= true Dropdown now got shown when user click on tag-input element instead of user have to clicking exactly on the the html input element
+
 ## 1.7.4 - 2018-06-20
 - better handle position of dropdown-menu (don't cover the input)
 
