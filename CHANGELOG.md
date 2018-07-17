@@ -1,5 +1,5 @@
 
-## 1.7.11 - 2018-07-13
+## 1.7.11 - 2018-07-17
 - feat: display format of tag and menu item now is <identifyBy>:<displayBy>
 
 ## 1.7.10 - 2018-07-13
