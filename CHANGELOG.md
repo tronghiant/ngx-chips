@@ -1,4 +1,7 @@
 
+## 1.7.9 - 2018-07-13
+- Fix: dropdown sometime does not shown when tap on the input
+
 ## 1.7.9 - 2018-07-03
 - Fix: tag input does not hide when max items reached on ie10
 
