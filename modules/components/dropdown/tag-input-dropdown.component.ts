@@ -383,4 +383,15 @@ export class TagInputDropdown {
 
         return this;
     }
+
+    /**
+     * Get display value of item base on its type
+     *
+     * @param {TagModel} item
+     * @returns {string}
+     * @memberof TagInputDropdown
+     */
+    public getDisplayValue(item: TagModel): string {
+        return typeof item === 'string' ? item : `${item[this.tagInput.identifyBy]} : ${item[this.tagInput.displayBy]}`;
+    }
 }

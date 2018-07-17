@@ -7,7 +7,7 @@
                        [ngSwitch]="!!templates.length">
 
             <span *ngSwitchCase="false"
-                  [innerHTML]="item[displayBy] | highlight : tagInput.inputForm.value.value">
+                  [innerHTML]="getDisplayValue(item) | highlight : tagInput.inputForm.value.value">
             </span>
 
             <ng-template *ngSwitchDefault
