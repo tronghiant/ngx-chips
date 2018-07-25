@@ -33,6 +33,7 @@
             aria-label="Remove tag"
             role="button"
             (click)="remove($event)"
+            (touchstart)="remove($event)"
             *ngIf="isDeleteIconVisible()">
         </delete-icon>
     </div>
