@@ -177,6 +177,35 @@ export class TagInputDropdown {
                 })
             )
             .subscribe(this.show);
+
+        // Remove all items that
+        // item[this.identifyBy] is undefined
+        // item[this.identifyBy] AND item[this.displayBy] are undefined
+        this.autocompleteItems = this.autocompleteItems
+            .map(item => {
+                if (typeof item === 'string') {
+                    return item;
+                } else if (!item[this.identifyBy]) {
+                    // Set both indentifyBy and displayBy values to undefined to filter later
+                    return {
+                        [this.identifyBy]: item[this.identifyBy],
+                        [this.displayBy]: item[this.identifyBy]
+                    };
+                } else if (!item[this.displayBy]) {
+                    return {
+                        [this.identifyBy]: item[this.identifyBy],
+                        [this.displayBy]: JSON.stringify(item[this.identifyBy])
+                    };
+                } else {
+                    return item;
+                }
+            })
+            .filter(item => {
+                if (!item[this.identifyBy] && !item[this.displayBy]) {
+                    return false;
+                }
+                return true;
+            });
     }
 
 
