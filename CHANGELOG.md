@@ -1,6 +1,10 @@
+## 1.7.12 - 2018-07-26
+- feat: handle items whose `displayBy` and/or `identifyBy` value is undefined
+    - TagInputDropdown, Tag, TagInputAccessor: Update display value getter
+    - Default options: update matching function to handle such speacial items
 
 ## 1.7.11 - 2018-07-17
-- feat: display format of tag and menu item now is <identifyBy>:<displayBy>
+- feat: display format of tag and menu item now is `<identifyBy>:<displayBy>`
 
 ## 1.7.10 - 2018-07-13
 - Fix: dropdown sometime does not shown when tap on the input

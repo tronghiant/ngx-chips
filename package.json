@@ -1,15 +1,17 @@
 {
   "name": "ngx-chips-4x",
-  "version": "1.7.11",
+  "version": "1.7.12",
   "description": "Tag Input component for Angular",
   "scripts": {
     "release": "npm run build && npm publish dist",
     "postrelease": "rm -rf dist",
-    "build": "ng-packagr -p package.json && mkdir ./dist/dist && cp -R ./modules/core/styles ./dist/core/styles && cp ./dist/bundles/ngx-chips-4x.umd.js ./dist/dist/ngx-chips-4x.bundle.js",
+    "build": "ng-packagr -p package.json && mkdir ./dist/dist && cp -R ./modules/core/styles ./dist/core/styles && cp ./dist/bundles/ngx-chips-4x.umd.js ./dist/dist/ngx-chips-4x.bundle.js && npm run sync-dist  && npm run sync-dist-frontend",
     "server": "webpack-dev-server --config webpack.demo.js --inline --colors --progress --port 3010 --content-base demo",
     "start": "npm run server",
     "test": "karma start karma.conf.js",
-    "codecov": "codecov"
+    "codecov": "codecov",
+    "sync-dist": "rsync -t -r dist/* /Users/user/Documents/HuyLD/Projects/4DD/SPL/999-999-fr-spl/node_modules/ngx-chips-4x/ --delete",
+    "sync-dist-frontend": "rsync -t -r dist/* /Users/user/Documents/HuyLD/Projects/4DD/SPL/Github/fr-spl-apl-frontend/node_modules/ngx-chips-4x/ --delete"
   },
   "author": {
     "name": "tronghiant",
