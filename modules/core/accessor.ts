@@ -65,7 +65,16 @@ export class TagInputAccessor implements ControlValueAccessor {
      * @param item
      */
     public getItemDisplay(item: TagModel): string {
-        return isObject(item) ? item[this.displayBy] : item;
+        if (isObject(item)) {
+            if (!item[this.displayBy]) {
+                if (!item[this.identifyBy]) {
+                    return '';
+                }
+                return item[this.identifyBy];
+            }
+            return item[this.displayBy];
+        }
+        return item.toString();
     }
 
     /**

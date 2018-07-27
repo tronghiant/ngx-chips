@@ -117,7 +117,17 @@ export const defaults = {
  * @param target
  */
 function matchingFn(this: TagInputDropdown, value: string, target: TagModel): boolean {
-    const targetValue = target[this.displayBy].toString();
+    let targetValue;
+    if (!target[this.displayBy]) {
+        // If target[this.displayBy] is undefined,
+        // match with target[this.identifyBy]
+        if (!target[this.identifyBy]) {
+            targetValue = '';
+        }
+        targetValue = target[this.identifyBy].toString();
+    } else {
+        targetValue = target[this.displayBy].toString();
+    }
 
     return targetValue && targetValue
         .toLowerCase()
