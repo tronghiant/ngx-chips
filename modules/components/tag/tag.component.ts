@@ -243,8 +243,12 @@ export class TagComponent {
                 return item[this.identifyBy];
             }
             return '';
+        } else {
+            if (!item[this.identifyBy]) {
+                return item[this.displayBy];
+            }
+            return `${item[this.identifyBy]} : ${item[this.displayBy]}`;
         }
-        return `${item[this.identifyBy]} : ${item[this.displayBy]}`;
     }
 
     /**
