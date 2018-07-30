@@ -106,7 +106,7 @@
         <div>
             <h3>Tags accepting only items from an autocomplete using an observable and showing dropdown without entering text</h3>
             <tag-input [ngModel]="items" [onlyFromAutocomplete]="true">
-                <tag-input-dropdown 
+                <tag-input-dropdown
                         [showDropdownIfEmpty]="true"
                         [autocompleteObservable]="requestAutocompleteItemsFake">
                 </tag-input-dropdown>
@@ -193,6 +193,18 @@
                 <tag-input
                     [disable]="true"
                     [formControlName]="'chips'"
+                    name="items">
+                </tag-input>
+            </form>
+        </div>
+
+        <div>
+            <h3>Tags within a form group. Some items have undefined key and/or value</h3>
+            <form [formGroup]="form">
+                <tag-input
+                    [displayBy]="'name'"
+                    [identifyBy]="'id'"
+                    [formControlName]="'undefinedItems'"
                     name="items">
                 </tag-input>
             </form>

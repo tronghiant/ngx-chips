@@ -16,7 +16,27 @@ export class Home {
 
     constructor(private http: Http) {
         this.form = new FormBuilder().group({
-            chips: [['chip'], []]
+            chips: [['chip'], []],
+            undefinedItems: [
+                [
+                    {
+                        id: undefined,
+                        name: undefined
+                    },
+                    {
+                        id: 'item with undefined display value',
+                        name: undefined
+                    },
+                    {
+                        id: undefined,
+                        name: 'item with undefined identify value'
+                    },
+                    {
+                        id: 1,
+                        name: 'This is valid item'
+                    }
+                ]
+            ]
         });
     }
 
