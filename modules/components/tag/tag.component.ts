@@ -234,7 +234,21 @@ export class TagComponent {
      * @param item
      */
     public getDisplayValue(item: TagModel): string {
-        return typeof item === 'string' ? item : `${item[this.identifyBy]} : ${item[this.displayBy]}`;
+        if (typeof item === 'string') {
+            return item;
+        }
+
+        if (!item[this.displayBy]) {
+            if (!!item[this.identifyBy]) {
+                return item[this.identifyBy];
+            }
+            return '';
+        } else {
+            if (!item[this.identifyBy]) {
+                return item[this.displayBy];
+            }
+            return `${item[this.identifyBy]} : ${item[this.displayBy]}`;
+        }
     }
 
     /**

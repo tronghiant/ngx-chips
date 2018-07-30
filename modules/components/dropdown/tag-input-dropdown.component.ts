@@ -177,6 +177,8 @@ export class TagInputDropdown {
                 })
             )
             .subscribe(this.show);
+
+        this.filterAutocomplete();
     }
 
 
@@ -338,6 +340,7 @@ export class TagInputDropdown {
                 [this.identifyBy]: item
             } : item;
         });
+        this.filterAutocomplete();
 
         return this;
     }
@@ -392,6 +395,50 @@ export class TagInputDropdown {
      * @memberof TagInputDropdown
      */
     public getDisplayValue(item: TagModel): string {
-        return typeof item === 'string' ? item : `${item[this.tagInput.identifyBy]} : ${item[this.tagInput.displayBy]}`;
+        if (typeof item === 'string') {
+            return item;
+        }
+
+        if (!item[this.displayBy]) {
+            if (!!item[this.identifyBy]) {
+                return item[this.identifyBy];
+            }
+            return '';
+        }
+
+        return `${item[this.identifyBy]} : ${item[this.displayBy]}`;
+    }
+
+    /**
+     * Filter autocomplete list
+     * Remove all items that
+     *  - item[this.identifyBy] is undefined
+     *  - item[this.identifyBy] AND item[this.displayBy] are undefined
+     *
+     * @private
+     * @memberof TagInputDropdown
+     */
+    private filterAutocomplete() {
+        this.autocompleteItems = this.autocompleteItems
+            .map(item => {
+                if (typeof item === 'string') {
+                    return item;
+                } else if (!item[this.identifyBy]) {
+                    // Set both indentifyBy and displayBy values
+                    // to undefined to filter later
+                    return {
+                        [this.identifyBy]: item[this.identifyBy],
+                        [this.displayBy]: item[this.identifyBy]
+                    };
+                } else {
+                    return item;
+                }
+            })
+            .filter(item => {
+                if (!item[this.identifyBy] && !item[this.displayBy]) {
+                    return false;
+                }
+                return true;
+            });
     }
 }
