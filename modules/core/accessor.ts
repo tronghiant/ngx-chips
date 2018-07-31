@@ -41,7 +41,11 @@ export class TagInputAccessor implements ControlValueAccessor {
     }
 
     public writeValue(items: any[]) {
-        this._items = items || [];
+        if (!items || items.length === 0) {
+            this._items = [];
+        } else {
+            this._items = this.filterItems(items);
+        }
     }
 
     public registerOnChange(fn: any) {
@@ -83,5 +87,40 @@ export class TagInputAccessor implements ControlValueAccessor {
      */
     protected getItemsWithout(index: number): TagModel[] {
         return this.items.filter((item, position) => position !== index);
+    }
+
+    /**
+     * Filter list of items
+     * Remove all items that
+     *  - item[this.identifyBy] is undefined
+     *  - item[this.identifyBy] AND item[this.displayBy] are undefined
+     *
+     * @private
+     * @param {any[]} items
+     * @returns
+     * @memberof TagInputAccessor
+     */
+    private filterItems(items: any[]) {
+        return items
+            .map(item => {
+                if (typeof item === 'string') {
+                    return item;
+                } else if (!item[this.identifyBy]) {
+                    // Set both indentifyBy and displayBy values
+                    // to undefined to filter later
+                    return {
+                        [this.identifyBy]: item[this.identifyBy],
+                        [this.displayBy]: item[this.identifyBy]
+                    };
+                } else {
+                    return item;
+                }
+            })
+            .filter(item => {
+                if (!item[this.identifyBy] && !item[this.displayBy]) {
+                    return false;
+                }
+                return true;
+            });
     }
 }

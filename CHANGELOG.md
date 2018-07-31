@@ -1,3 +1,7 @@
+## 1.7.13 - 2018-07-30
+- fix: supplementary fix for [v1.7.12](#1.7.12\ -\ 2018-07-26): handle items with undefined key/value that passed from form.
+- doc: add demonstration for the case items with undefined key/value passed from form.
+
 ## 1.7.12 - 2018-07-26
 - feat: handle items whose `displayBy` and/or `identifyBy` value is undefined
     - TagInputDropdown, Tag, TagInputAccessor: Update display value getter
