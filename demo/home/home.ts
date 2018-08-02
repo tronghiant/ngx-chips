@@ -40,6 +40,8 @@ export class Home {
         });
     }
 
+    displayWithCode = true;
+
     disabled = true;
 
     items = ['Javascript', 'Typescript'];
