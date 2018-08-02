@@ -406,7 +406,11 @@ export class TagInputDropdown {
             return '';
         }
 
-        return `${item[this.identifyBy]} : ${item[this.displayBy]}`;
+        if (this.tagInput.withCode) {
+            return `${item[this.identifyBy]} : ${item[this.displayBy]}`;
+        } else {
+            return item[this.displayBy];
+        }
     }
 
     /**
