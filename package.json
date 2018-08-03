@@ -3,6 +3,9 @@
   "version": "1.7.14",
   "description": "Tag Input component for Angular",
   "scripts": {
+    "maketar": "npm run clean && npm run build && npm run tar",
+    "clean": "npm run postrelease && rm -rf package && rm -rf $npm_package_name-$npm_package_version.tgz",
+    "tar": "mv dist package && tar -cvzf $npm_package_name-$npm_package_version.tgz package && mv package dist",
     "release": "npm run build && npm publish dist",
     "postrelease": "rm -rf dist",
     "build": "ng-packagr -p package.json && mkdir ./dist/dist && cp -R ./modules/core/styles ./dist/core/styles && cp ./dist/bundles/ngx-chips-4x.umd.js ./dist/dist/ngx-chips-4x.bundle.js",
