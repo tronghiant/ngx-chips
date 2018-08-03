@@ -344,7 +344,6 @@ export class TagComponent {
      * @param input
      */
     private storeNewValue(input: string): void {
-        console.log('aaaaa Tag.storeNewValue', input);
         const exists = (tag: TagModel) => {
             return typeof tag === 'string' ?
             tag === input :
