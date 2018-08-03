@@ -65,6 +65,16 @@ export class TagComponent {
     @Input() public identifyBy: string;
 
     /**
+     * Flag to toggle displaying the value of identifyBy or not.
+     * If true, display item as <identifyBy>: <displayBy>
+     * Else display item as <displayBy>
+     *
+     * @type {boolean}
+     * @memberof TagComponent
+     */
+    @Input() public withCode: boolean = false;
+
+    /**
      * @name index {number}
      */
     @Input() public index: number;
@@ -244,10 +254,12 @@ export class TagComponent {
             }
             return '';
         } else {
-            if (!item[this.identifyBy]) {
-                return item[this.displayBy];
+            if (this.withCode) {
+                if (!!item[this.identifyBy]) {
+                    return `${item[this.identifyBy]} : ${item[this.displayBy]}`;
+                }
             }
-            return `${item[this.identifyBy]} : ${item[this.displayBy]}`;
+            return item[this.displayBy];
         }
     }
 

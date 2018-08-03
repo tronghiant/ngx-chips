@@ -189,9 +189,13 @@
 
         <div>
             <h3>Tags within a form group</h3>
+            <div>
+                <label>Toggle displaying format &lt;id&gt;: &lt;value&gt;</label>
+                <input type="checkbox" [(ngModel)]="displayWithCode">
+            </div>
             <form [formGroup]="form">
                 <tag-input
-                    [disable]="true"
+                    [withCode]="displayWithCode"
                     [formControlName]="'chips'"
                     name="items">
                 </tag-input>
@@ -200,8 +204,13 @@
 
         <div>
             <h3>Tags within a form group. Some items have undefined key and/or value</h3>
+            <div>
+                <label>Toggle displaying format &lt;id&gt;: &lt;value&gt;</label>
+                <input type="checkbox" [(ngModel)]="displayWithCode">
+            </div>
             <form [formGroup]="form">
                 <tag-input
+                    [withCode]="displayWithCode"
                     [displayBy]="'name'"
                     [identifyBy]="'id'"
                     [formControlName]="'undefinedItems'"

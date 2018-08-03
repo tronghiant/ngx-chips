@@ -38,6 +38,7 @@ export interface TagInputOptions {
     onAdding?: (tag: TagModel) => Observable<TagModel>;
     displayBy: string;
     identifyBy: string;
+    withCode: boolean;
     animationDuration: {
         enter: string,
         leave: string
@@ -91,6 +92,7 @@ export const defaults = {
         onAdding: undefined,
         displayBy: 'display',
         identifyBy: 'value',
+        withCode: false,
         animationDuration: {
             enter: '250ms',
             leave: '150ms'

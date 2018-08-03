@@ -27,6 +27,16 @@ export class TagInputAccessor implements ControlValueAccessor {
      */
     @Input() public identifyBy: string = OptionsProvider.defaults.tagInput.identifyBy;
 
+    /**
+     * Flag to toggle displaying the value of identifyBy or not.
+     * If true, display item as <identifyBy>: <displayBy>
+     * Else display item as <displayBy>
+     *
+     * @type {boolean}
+     * @memberof TagInputAccessor
+     */
+    @Input() public withCode: boolean = OptionsProvider.defaults.tagInput.withCode;
+
     public get items(): TagModel[] {
         return this._items;
     };
