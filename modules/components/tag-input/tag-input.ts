@@ -71,134 +71,134 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
      * @name separatorKeys
      * @desc keyboard keys with which a user can separate items
      */
-    @Input() public separatorKeys: string[] = defaults().separatorKeys;
+    @Input() public separatorKeys: string[] = new defaults().separatorKeys;
 
     /**
      * @name separatorKeyCodes
      * @desc keyboard key codes with which a user can separate items
      */
-    @Input() public separatorKeyCodes: number[] = defaults().separatorKeyCodes;
+    @Input() public separatorKeyCodes: number[] = new defaults().separatorKeyCodes;
 
     /**
      * @name placeholder
      * @desc the placeholder of the input text
      */
-    @Input() public placeholder: string = defaults().placeholder;
+    @Input() public placeholder: string = new defaults().placeholder;
 
     /**
      * @name secondaryPlaceholder
      * @desc placeholder to appear when the input is empty
      */
-    @Input() public secondaryPlaceholder: string = defaults().secondaryPlaceholder;
+    @Input() public secondaryPlaceholder: string = new defaults().secondaryPlaceholder;
 
     /**
      * @name maxItems
      * @desc maximum number of items that can be added
      */
-    @Input() public maxItems: number = defaults().maxItems;
+    @Input() public maxItems: number = new defaults().maxItems;
 
     /**
      * @name validators
      * @desc array of Validators that are used to validate the tag before it gets appended to the list
      */
-    @Input() public validators: ValidatorFn[] = defaults().validators;
+    @Input() public validators: ValidatorFn[] = new defaults().validators;
 
     /**
      * @name asyncValidators
      * @desc array of AsyncValidator that are used to validate the tag before it gets appended to the list
      */
-    @Input() public asyncValidators: AsyncValidatorFn[] = defaults().asyncValidators;
+    @Input() public asyncValidators: AsyncValidatorFn[] = new defaults().asyncValidators;
 
     /**
     * - if set to true, it will only possible to add items from the autocomplete
     * @name onlyFromAutocomplete
     */
-    @Input() public onlyFromAutocomplete = defaults().onlyFromAutocomplete;
+    @Input() public onlyFromAutocomplete = new defaults().onlyFromAutocomplete;
 
 	/**
      * @name errorMessages
      */
-    @Input() public errorMessages: { [key: string]: string } = defaults().errorMessages;
+    @Input() public errorMessages: { [key: string]: string } = new defaults().errorMessages;
 
     /**
      * @name theme
      */
-    @Input() public theme: string = defaults().theme;
+    @Input() public theme: string = new defaults().theme;
 
     /**
      * @name onTextChangeDebounce
      */
-    @Input() public onTextChangeDebounce = defaults().onTextChangeDebounce;
+    @Input() public onTextChangeDebounce = new defaults().onTextChangeDebounce;
 
     /**
      * - custom id assigned to the input
      * @name id
      */
-    @Input() public inputId = defaults().inputId;
+    @Input() public inputId = new defaults().inputId;
 
     /**
      * - custom class assigned to the input
      */
-    @Input() public inputClass: string = defaults().inputClass;
+    @Input() public inputClass: string = new defaults().inputClass;
 
     /**
      * - option to clear text input when the form is blurred
      * @name clearOnBlur
      */
-    @Input() public clearOnBlur: boolean = defaults().clearOnBlur;
+    @Input() public clearOnBlur: boolean = new defaults().clearOnBlur;
 
     /**
      * - hideForm
      * @name clearOnBlur
      */
-    @Input() public hideForm: boolean = defaults().hideForm;
+    @Input() public hideForm: boolean = new defaults().hideForm;
 
     /**
      * @name addOnBlur
      */
-    @Input() public addOnBlur: boolean = defaults().addOnBlur;
+    @Input() public addOnBlur: boolean = new defaults().addOnBlur;
 
     /**
      * @name addOnPaste
      */
-    @Input() public addOnPaste: boolean = defaults().addOnPaste;
+    @Input() public addOnPaste: boolean = new defaults().addOnPaste;
 
     /**
      * - pattern used with the native method split() to separate patterns in the string pasted
      * @name pasteSplitPattern
      */
-    @Input() public pasteSplitPattern = defaults().pasteSplitPattern;
+    @Input() public pasteSplitPattern = new defaults().pasteSplitPattern;
 
     /**
      * @name blinkIfDupe
      */
-    @Input() public blinkIfDupe = defaults().blinkIfDupe;
+    @Input() public blinkIfDupe = new defaults().blinkIfDupe;
 
     /**
      * @name removable
      */
-    @Input() public removable = defaults().removable;
+    @Input() public removable = new defaults().removable;
 
     /**
      * @name editable
      */
-    @Input() public editable: boolean = defaults().editable;
+    @Input() public editable: boolean = new defaults().editable;
 
     /**
      * @name allowDupes
      */
-    @Input() public allowDupes = defaults().allowDupes;
+    @Input() public allowDupes = new defaults().allowDupes;
 
     /**
      * @description if set to true, the newly added tags will be added as strings, and not objects
      * @name modelAsStrings
      */
-    @Input() public modelAsStrings = defaults().modelAsStrings;
+    @Input() public modelAsStrings = new defaults().modelAsStrings;
 
     /**
      * @name trimTags
      */
-    @Input() public trimTags = defaults().trimTags;
+    @Input() public trimTags = new defaults().trimTags;
 
     /**
      * @name inputText
@@ -210,38 +210,38 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
     /**
      * @name ripple
      */
-    @Input() public ripple: boolean = defaults().ripple;
+    @Input() public ripple: boolean = new defaults().ripple;
 
     /**
      * @name tabindex
      * @desc pass through the specified tabindex to the input
      */
-    @Input() public tabindex: string = defaults().tabIndex;
+    @Input() public tabindex: string = new defaults().tabIndex;
 
     /**
      * @name disable
      */
-    @Input() public disable: boolean = defaults().disable;
+    @Input() public disable: boolean = new defaults().disable;
 
     /**
      * @name dragZone
      */
-    @Input() public dragZone: string = defaults().dragZone;
+    @Input() public dragZone: string = new defaults().dragZone;
 
     /**
      * @name onRemoving
      */
-    @Input() public onRemoving = defaults().onRemoving;
+    @Input() public onRemoving = new defaults().onRemoving;
 
     /**
      * @name onAdding
      */
-    @Input() public onAdding = defaults().onAdding;
+    @Input() public onAdding = new defaults().onAdding;
 
     /**
      * @name animationDuration
      */
-    @Input() public animationDuration = defaults().animationDuration;
+    @Input() public animationDuration = new defaults().animationDuration;
 
     /**
      * @name onAdd
